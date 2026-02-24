@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
+		<Product>$(MSBuildProjectName)</Product>
+		<Version>1.0.0</Version>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<LangVersion>latest</LangVersion>
+		<RestoreAdditionalProjectSources>
+			https://api.nuget.org/v3/index.json;
+			https://nuget.bepinex.dev/v3/index.json;
+			https://nuget.samboy.dev/v3/index.json
+		</RestoreAdditionalProjectSources>
+		<RootNamespace>UnofficialPatches</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+		<PackageReference Include="BepInEx.Core" Version="5.*" />
+		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+		<PackageReference Include="UnityEngine.Modules" Version="2018.2.21" IncludeAssets="compile" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<GamePath Condition="!Exists('$(GamePath)')">E:\SteamLibrary\steamapps\common\Out of Space</GamePath>
+		<AssemblyReferencePath Condition="!Exists('$(AssemblyReferencePath)')">$(GamePath)\Out of Space_Data\Managed</AssemblyReferencePath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>$(AssemblyReferencePath)\Assembly-CSharp.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Unity.TextMeshPro">
+			<HintPath>$(AssemblyReferencePath)\Unity.TextMeshPro.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<GamePluginsPath Condition="'$(GamePluginsPath)' == ''">$([System.IO.Path]::Combine($(GamePath), 'BepInEx', 'plugins'))</GamePluginsPath>
+
+		<EnableModDeployLocal Condition="'$(EnableModDeployLocal)' == ''">true</EnableModDeployLocal>
+		<EnableDocumentation Condition="'$(EnableDocumentation)' == ''">false</EnableDocumentation>
+	</PropertyGroup>
+
+	<Target Name="Deploy" AfterTargets="Build" Condition="$(EnableModDeployLocal) == 'true'">
+		<Message Text="***********************************************************" Importance="high" />
+		<Message Text="Copying files to game directory..." Importance="high" />
+		<Message Text="***********************************************************" Importance="high" />
+
+		<ItemGroup>
+			<_DLLToCopy Include="$(ProjectDir)/bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).dll" />
+			<_XMLToCopy Include="$(ProjectDir)/bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(_DLLToCopy)" DestinationFiles="@(_DLLToCopy->'$(GamePluginsPath)\%(Filename)%(Extension)')" />
+		<Copy Condition="'$(EnableDocumentation)'" SourceFiles="@(_XMLToCopy)" DestinationFiles="@(_XMLToCopy->'$(GamePluginsPath)\%(Filename)%(Extension)')" />
+	</Target>
+
+</Project>
