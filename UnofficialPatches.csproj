@@ -31,13 +31,14 @@
 		<AssemblyReferencePath Condition="!Exists('$(AssemblyReferencePath)')">$(GamePath)\Out of Space_Data\Managed</AssemblyReferencePath>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+		<StartAction>Program</StartAction>
+		<StartProgram>$(GamePath)\Out of Space.exe</StartProgram>
+		<StartWorkingDirectory>$(GamePath)</StartWorkingDirectory>
+	</PropertyGroup>
+
 	<ItemGroup>
-		<Reference Include="Assembly-CSharp">
-			<HintPath>$(AssemblyReferencePath)\Assembly-CSharp.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="Unity.TextMeshPro">
-			<HintPath>$(AssemblyReferencePath)\Unity.TextMeshPro.dll</HintPath>
+		<Reference Include="$(AssemblyReferencePath)\*.dll">
 			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
