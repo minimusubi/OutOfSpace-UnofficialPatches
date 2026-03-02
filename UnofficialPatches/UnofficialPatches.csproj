@@ -4,7 +4,7 @@
 		<TargetFramework>net472</TargetFramework>
 		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
 		<Product>$(MSBuildProjectName)</Product>
-		<Version>1.0.0</Version>
+		<Version>0.0.0-development</Version>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<LangVersion>latest</LangVersion>
 		<RestoreAdditionalProjectSources>
@@ -41,6 +41,10 @@
 		<Reference Include="$(AssemblyReferencePath)\*.dll">
 			<Private>false</Private>
 		</Reference>
+		<!-- For GitHub actions-->
+		<Reference Include="..\OutOfSpace-PrivateGameAssemblies\*.dll">
+			<Private>false</Private>
+		</Reference>
 	</ItemGroup>
 
 	<PropertyGroup>
@@ -50,7 +54,7 @@
 		<EnableDocumentation Condition="'$(EnableDocumentation)' == ''">false</EnableDocumentation>
 	</PropertyGroup>
 
-	<Target Name="Deploy" AfterTargets="Build" Condition="$(EnableModDeployLocal) == 'true'">
+	<Target Name="Deploy" AfterTargets="Build" Condition="'$(Configuration)' != 'Release' And $(EnableModDeployLocal) == 'true'">
 		<Message Text="***********************************************************" Importance="high" />
 		<Message Text="Copying files to game directory..." Importance="high" />
 		<Message Text="***********************************************************" Importance="high" />

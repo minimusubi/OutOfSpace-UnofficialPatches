@@ -1,0 +1,50 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build and release
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+  workflow_dispatch:
+
+permissions:
+  # Always needed by semantic-release
+  contents: write
+
+jobs:
+  build:
+    name: Build and release
+    environment: release
+    runs-on: windows-2025-vs2026
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/checkout@v6
+        with:
+          repository: minimusubi/OutOfSpace-PrivateGameAssemblies
+          token: ${{ secrets.GAME_ASSEMBLIES_REPO_ACCESS_TOKEN }}
+          path: OutOfSpace-PrivateGameAssemblies
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Build & release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx --package @semantic-release/exec@7 --package semantic-release@25 --package semantic-release-replace-plugin@1 semantic-release
