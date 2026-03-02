@@ -1,5 +1,5 @@
 {
-	"branches": [{ "name": "main", "prerelease": "alpha" }, "never"],
+	"branches": ["main"],
 	"plugins": [
 		[
 			"semantic-release-replace-plugin",
@@ -7,8 +7,8 @@
 				"replacements": [
 					{
 						"files": ["UnofficialPatches/UnofficialPatches.csproj"],
-						"from": "0.0.0-development",
-						"to": "${nextRelease.version}",
+						"from": "0.0.0",
+						"to": "0.${nextRelease.version}",
 						"results": [
 							{
 								"file": "UnofficialPatches/UnofficialPatches.csproj",
