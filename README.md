@@ -1,3 +1,7 @@
+# UnofficialPatches
+
+UnofficialPatches is a mod that contains a collection of bugfixes and improvements for the game Out of Space.
+
 # Installation
 
 This mod uses the BepInEx plugin/modding framework.
@@ -50,11 +54,11 @@ Drag and drop (or copy) the files from the BepInEx zip file into the Out of Spac
 
 Start Out of Space once. This lets BepInEx create its necessary config files and directories.
 
-## 3. Install the mod
+## 3. Install UnofficialPatches
 
 ### 3.1 Download
 
-Download the latest release `UnofficialPatches.dll` [from the Releases page](https://github.com/minimusubi/OutOfSpace-UnofficialPatches/releases).
+[Download the latest release](https://github.com/minimusubi/OutOfSpace-UnofficialPatches/releases) `UnofficialPatches.dll` from the Releases page.
 
 ### 3.2 Move to plugins directory
 
