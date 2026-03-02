@@ -2,8 +2,8 @@
 
 namespace UnofficialPatches.patches {
 	/**
-     * Allows you to pause and unpause the game with the same button (menu/start button).
-     */
+	 * Allows you to pause and unpause the game with the same button (menu/start button).
+	 */
 	[HarmonyPatch(typeof(PauseUI))]
 	internal class ControllerUnpausePatch {
 		[HarmonyPatch("Update")]
