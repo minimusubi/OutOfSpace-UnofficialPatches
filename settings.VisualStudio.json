@@ -1,0 +1,5 @@
+/* Visual Studio Settings File */
+{
+  "textEditor.general.display.bracePairColorization": true,
+  "languages.csharp.tabs.character": "tab"
+}
