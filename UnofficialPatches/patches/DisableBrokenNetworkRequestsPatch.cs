@@ -47,6 +47,9 @@ namespace UnofficialPatches.patches {
 		[HarmonyPatch(typeof(LoopManager), "SendStartedMatchToServer")]
 		[HarmonyPrefix]
 		private static bool LoopManager_SendStartedMatchToServer(ref IEnumerator __result) {
+			// This coroutine should do nothing
+			__result = GetEmptyEnumerator();
+
 			// Skip the original method entirely
 			return false;
 		}
